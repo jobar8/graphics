@@ -224,7 +224,7 @@ def alpha_blend(rgb, intensity, alpha = 0.7):
 #===============================================================================
 # imshow_hs
 #===============================================================================
-def imshow_hs(data,ax=None,cmap='geosoft',norm_cmap='equalize',hs=True,hs_only=False,
+def imshow_hs(data,ax=None,cmap='geosoft',norm_cmap='equalize',hs=True,
               zf=10,azdeg=45,altdeg=45,dx=1,dy=1,fraction=1.5,blend_mode='alpha',
               alpha=0.7,contours=False,levels=32,colorbar=True,cb_contours=False,
               cb_ticks='linear',nSigma=1,**kwargs):
@@ -256,8 +256,6 @@ def imshow_hs(data,ax=None,cmap='geosoft',norm_cmap='equalize',hs=True,hs_only=F
     hs : boolean
         If True, the array is displayed in colours over a grey hillshaded version
         of the data.
-    hs_only : boolean
-        If True, only the hillshaded version of the data is displayed. The colorbar is removed.
     zf : number
         Vertical exaggeration (Z factor) for hillshading.
     azdeg : number
@@ -365,10 +363,10 @@ def imshow_hs(data,ax=None,cmap='geosoft',norm_cmap='equalize',hs=True,hs_only=F
         ct = plt.contour(data,levels,linewidths=0.5,colors='k',linestyles='solid',**kwargs)  
         
     # add colorbar
-    if colorbar and not hs_only:
+    if colorbar and alpha != 0:
         if hs:
             # Use a proxy artist for the colorbar
-            im = ax.imshow(data, cmap=my_cmap,**kwargs)
+            im = ax.imshow(data,cmap=my_cmap,**kwargs)
             im.remove()
         
         if cb_ticks=='linear': # normal equidistant ticks on a linear scale 
