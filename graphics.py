@@ -23,7 +23,7 @@ def stats_boundaries(data,nSigma=1,sigmaStep=1):
     '''
     mu = np.nanmean(data)
     sigma = np.nanstd(data)
-    newTicks = np.arange(mu-nSigma*sigma,mu+(nSigma+sigmaStep)*sigma,sigmaStep*sigma)
+    newTicks = mu + sigma*np.arange(-nSigma,nSigma+sigmaStep,sigmaStep)
 
     return [np.nanmin(data)] + newTicks.tolist() + [np.nanmax(data)]
                 
