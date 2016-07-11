@@ -224,7 +224,7 @@ def alpha_blend(rgb, intensity, alpha = 0.7):
 #===============================================================================
 # imshow_hs
 #===============================================================================
-def imshow_hs(data,ax=None,cmap='geosoft',norm_cmap='equalize',hs=True,
+def imshow_hs(data,ax=None,cmap='geosoft',cmap_norm='equalize',hs=True,
               zf=10,azdeg=45,altdeg=45,dx=1,dy=1,fraction=1.5,blend_mode='alpha',
               alpha=0.7,contours=False,levels=32,colorbar=True,cb_contours=False,
               cb_ticks='linear',nSigma=1,**kwargs):
@@ -241,7 +241,7 @@ def imshow_hs(data,ax=None,cmap='geosoft',norm_cmap='equalize',hs=True,
     cmap : string
         Name of the colormap to use to display the array. The default 'geosoft' is
         the blue to pink clra colormap from Geosoft Oasis Montaj.
-    norm_cmap : string
+    cmap_norm : string
         Type of normalisation of the colormap. 
         Possible values are:
             'equalize' (or 'equalization')
@@ -304,11 +304,11 @@ def imshow_hs(data,ax=None,cmap='geosoft',norm_cmap='equalize',hs=True,
 
     '''
     # modify colormap if required
-    if norm_cmap in ['equalize','equalization']:
+    if cmap_norm in ['equalize','equalization']:
         # histogram equalization
         cdf, bins = exposure.cumulative_distribution(data[~np.isnan(data)].flatten(),nbins=256)
         my_cmap = equalizeColormap(cmap,bins,cdf)
-    elif norm_cmap in ['auto','autolevels']:
+    elif cmap_norm in ['auto','autolevels']:
         # autolevels
         minP = kwargs.pop('minPercent',10) # also removes the key from the dictionary
         maxP = kwargs.pop('maxPercent',90)
