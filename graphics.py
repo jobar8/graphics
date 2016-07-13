@@ -345,17 +345,26 @@ def imshow_hs(data,ax=None,cmap='geosoft',cmap_norm='equalize',hs=True,
         # create light source
         ls = mcolors.LightSource(azdeg, altdeg)
         
-        if blend_mode == 'alpha':
+        # calculate hillshade and combine the colormapped data with the intensity
+        if alpha == 0:
+            # special case when only the shaded relief is needed without blending            
+            rgb = ls.hillshade(data,vert_exag=zf,dx=dx,dy=dy,fraction=fraction)
+            kwargs['cmap'] = 'gray'
+        
+        elif blend_mode == 'alpha':
+            # transparency blending
             rgb = ls.shade(data,cmap=my_cmap,blend_mode=alpha_blend,vert_exag=zf,dx=dx,dy=dy,
                            fraction=fraction,alpha=alpha,**kwargs_norm)
             
         else:
+            # other blending modes from matplotlib function
             rgb = ls.shade(data,cmap=my_cmap,blend_mode=blend_mode,vert_exag=zf,dx=dx,dy=dy,
                            fraction=fraction,**kwargs_norm)
                          
         ax.imshow(rgb,**kwargs)
         
     else:
+        # display data without hillshading
         im = ax.imshow(data,cmap=my_cmap,**kwargs)
         
     # add contours
